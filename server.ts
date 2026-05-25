@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 
 async function startServer() {
   const app = express();
@@ -12,11 +11,26 @@ async function startServer() {
   });
 
   // Enable Vite middleware in dev or fall back to compiled assets in production
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
+  const isProduction = 
+  process.env.NODE_ENV === "production" || 
+  process.argv[1]?.endsWith("server.cjs") || 
+  process.argv[1]?.includes("dist");
+
+if (!isProduction) {
+  const { createServer: createViteServer } = await import("vite");
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: "spa",
+  });
+  app.use(vite.middlewares);
+} else {
+  const distPath = path.join(process.cwd(), 'dist');
+  app.use(express.static(distPath));
+  // Correct catch-all route matching for Express v5
+  app.get('/:splat*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
