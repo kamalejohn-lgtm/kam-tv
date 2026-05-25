@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #0b110b;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+/* Custom Tactical Grid */
+.tactical-grid {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(0, 255, 100, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0, 255, 100, 0.04) 1px, transparent 1px);
+}
+
+/* Bevel effects */
+.military-bevel {
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.15),
+              inset -1px -1px 0 rgba(0, 0, 0, 0.4),
+              0 8px 16px rgba(0, 0, 0, 0.5);
+}
