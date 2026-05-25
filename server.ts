@@ -23,9 +23,9 @@ async function startServer() {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     // Safe wildcard routing syntax for Express 5 matching compatibility
-    app.get('*all', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
+    app.get('/:splat*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
   }
 
   app.listen(Number(PORT), "0.0.0.0", () => {
