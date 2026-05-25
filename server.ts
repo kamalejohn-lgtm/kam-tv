@@ -5,8 +5,7 @@ import { createServer as createViteServer } from "vite";
 async function startServer() {
   const app = express();
   // Standard port as per environment configuration
-  const PORT = process.env.PORT || 3000;
-
+  const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
   // Render health checking
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", app: "kamtv-standalone" });
