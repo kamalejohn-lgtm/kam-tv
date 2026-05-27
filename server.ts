@@ -29,11 +29,11 @@ async function startServer() {
 
   // Flat Condition 2: Production Mode (No else block!)
   if (isProduction) {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('/:splat*', (_req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
+  const distPath = path.join(process.cwd(), 'dist');
+  app.use(express.static(distPath));
+  app.get('*all', (_req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
   }
 
   app.listen(Number(PORT), "0.0.0.0", () => {
